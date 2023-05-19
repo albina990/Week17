@@ -1,43 +1,42 @@
 // Вы устроились разработчиком в автомобильную компанию. Вам нужно написать код, который отвечает за отображение на сайте информации о транспорте и цене. Вам нужно:
-// - создать класс Transport, у него есть свойства: type, price, brand и два метода getInfo() и getPrice() ;
-// - создать класс Car, который наследует от Transport. Этот класс должен содержать метод getDoorsCount() , который возвращает количество дверей;
-// - создать класс Bike, который наследует от Transport. Этот класс должен содержать метод getMaxSpeed(), который возвращает максимальную скорость мотоцикла.
-// Объект, с которым вам предстоит работать:
 
+// создать класс Transport, у него есть свойства: type, price, brand и два метода getInfo() и getPrice()
 class Transport {
-    constructor(type, price, brand) {
+    constructor(type, price, brand, image) {
         this.type = type;
         this.price = price;
         this.brand = brand;
+        this.image = image;
     }
     getInfo() {
-        return `Тип транспорта: ${this.type}, марка: ${this.brand}`;
+        return this.brand;
         
     }
     getPrice(){
         return this.price;
     }
 }
-
+//создать класс Car, который наследует от Transport. Этот класс должен содержать метод getDoorsCount() , который возвращает количество дверей
 class Car extends Transport {
-    constructor(type, price, brand, doorsCount) {
-        super(type, price, brand);
-        this.doorsCount = doorsCount;
+    constructor(type, price, brand, image, doors) {
+        super(type, price, brand, image);
+        this.doors = doors;
     }
     getDoorsCount() {
-        return this.doorsCount;
+        return this.doors;
     }
 }
+//создать класс Bike, который наследует от Transport. Этот класс должен содержать метод getMaxSpeed(), который возвращает максимальную скорость мотоцикла.
 class Bike extends Transport {
-    constructor(type, price, brand, maxSpeed) {
-        super(type, price, brand)
+    constructor(type, price, brand, image, maxSpeed) {
+        super(type, price, brand, image)
         this.maxSpeed = maxSpeed
     }
     getMaxSpeed() {
         return this.maxSpeed
     }
 }
-
+//Объект, с которым предстоит работать:
 const data = [
     {
         id: 1,
@@ -45,9 +44,6 @@ const data = [
         brand: "Audi",
         doors: 4,
         price: 4300000,
-        // getPrice(){
-        //     return this.price;
-        // },
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/2020_Audi_e-Tron_Sport_50_Quattro.jpg/1200px-2020_Audi_e-Tron_Sport_50_Quattro.jpg",
     },
     {
@@ -76,9 +72,30 @@ const data = [
     },
 ]
 
+const vehicle = document.querySelector('.vehicle'); // див, в который будут добавляться карточки с транспортными средствами
+data.forEach(el => { // перебор массива объектов
+    let div = document.createElement('div'); // создаётся див с карточкой транспортного средства
+    div.classList.add('vehicle__item'); 
+    let objCar;
+    let objBike;
+    if (el.type == 'car'){ // в зависимости от типа транспортного средства создаётся объект класса Car или Bike
+        objCar = new Car(el.type, el.price, el.brand, el.image, el.doors);
+        //добавляетсяв карточку информация из объекта
+        div.innerHTML = `<img src="${objCar.image}" alt=""> 
+        <div class="vehicle__property">
+            <p><b>Марка:</b> ${objCar.getInfo()}</p>
+            <p><b>Цена:</b> ${objCar.getPrice()}</p>
+            <p><b>Количество дверей:</b> ${objCar.getDoorsCount()}</p>`
+    } else if (el.type == 'bike'){ 
+        //добавляетсяв карточку информация из объекта
+        objBike = new Bike(el.type, el.price, el.brand, el.image, el.maxSpeed);
+        div.innerHTML = `<img src="${objBike.image}" alt="">
+        <div class="vehicle__property">
+            <p><b>Марка:</b> ${objBike.getInfo()}</p>
+            <p><b>Цена:</b> ${objBike.getPrice()}</p>
+            <p><b>Максимальная скорость:</b> ${objBike.getMaxSpeed()}</p>`
+    }
+    vehicle.appendChild(div); //добавление карточки в див
+})
 
-console.log(data[0].getPrice);
 
-
-// let objMy = new Bike('Bike', 25000, 'oka', 110);
-// console.log(objMy);
