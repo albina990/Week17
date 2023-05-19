@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+.container{
+    max-width: 800px;
+    margin: 0 auto;
+}
+img{
+    width: 300px;
+}
+.vehicle__item{
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+.vehicle__property{
+    margin-left: 30px;
+    font-size: 22px;
+}
